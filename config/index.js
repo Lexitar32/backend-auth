@@ -6,5 +6,5 @@ mongoose.connection
     console.log("Connected to mongodb");
   })
   .on("error", (error) => {
-    console.log("Something went wrong " + error);
+    console.log("Something went wrong " + error.message);
   });

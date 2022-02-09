@@ -35,3 +35,13 @@ npm run dev
 The Picture Below shows how your request should look like
 
 ![myimage-alt-tag](./readmeimage/signupreq.JPG)
+
+2. Open Postman and follow the steps below to test the sign in endpoint
+
+- Since it is running locally on port 5000, in a new tab add **localhost:5000/api/auth/login** and change the request to a POST request.
+- Add the sign in data to the body of the request in a tab called _x-www-form-urlencoded_.
+- Hit the send button to post the request.
+
+The Picture Below shows how your request should look like
+
+![myimage-alt-tag](./readmeimage/signinreq.JPG)
