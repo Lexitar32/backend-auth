@@ -18,7 +18,6 @@ const userSchema = new Schema(
     },
     refreshToken: {
       type: String,
-      unique: true,
     },
     isActive: {
       type: Boolean,

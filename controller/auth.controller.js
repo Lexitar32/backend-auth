@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const { emailVerification } = require("../utils/mailer");
 const { hash, compare } = require("bcrypt");
 const {
   createAccessToken,
@@ -23,12 +24,37 @@ exports.registerUser = async (req, res) => {
     });
 
     await user.save();
+
+    emailVerification(user);
+
     res.status(201).send({
-      message: "Registration successful",
+      message: "Registration successful, check your mail",
     });
   } catch (err) {
     res.status(404).send({
       error: err.message,
+    });
+  }
+};
+
+exports.emailVerification = async (req, res) => {
+  try {
+    const token = req.query.token;
+    console.log(token);
+
+    if (!token) return res.redirect("/");
+
+    const payload = verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const response = await User.findOneAndUpdate(
+      { email: payload.email },
+      { isActive: true }
+    );
+
+    if (!response) throw new Error("This user is not registered");
+    res.send("Email Verified")
+  } catch (error) {
+    res.status(400).send({
+      error: error.message,
     });
   }
 };
@@ -78,12 +104,11 @@ exports.getNewAccessToken = async (req, res) => {
   }
 };
 
-
 exports.logoutUser = (req, res) => {
-  res.clearCookie('refreshToken', {
-    path: "/api/auth/refreshtoken"
+  res.clearCookie("refreshToken", {
+    path: "/api/auth/refreshtoken",
   });
   res.send({
-    message: 'Logout Success'
-  })
-}
+    message: "Logout Success",
+  });
+};
