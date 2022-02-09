@@ -9,7 +9,7 @@ exports.emailVerification = (user) => {
         from: "olamilekan@scalemath.com", // Change to your verified sender
         subject: "Workover Platform",
         text: "and easy to do anywhere, even with Node.js",
-        html: `Thanks for registering on Workover, Click <a href="${process.env.BASE_URL}/auth/confirm-email?token=${token}">here</a>`,
+        html: `Thanks for registering on Workover platform, we are happy to have you here, Kindly Click <a href="${process.env.BASE_URL}/auth/confirm-email?token=${token}">here</a> to very your email`,
     };
     sgMail
         .send(msg)
