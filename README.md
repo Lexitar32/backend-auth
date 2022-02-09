@@ -45,3 +45,12 @@ The Picture Below shows how your request should look like
 The Picture Below shows how your request should look like
 
 ![myimage-alt-tag](./readmeimage/signinreq.JPG)
+
+3. Open Postman and follow the steps below to test the Logout endpoint
+
+- Since it is running locally on port 5000, in a new tab add **localhost:5000/api/auth/logout** and change the request to a DELETE request.
+- Hit the send button to process the request.
+
+The Picture Below shows how your request should look like
+
+![myimage-alt-tag](./readmeimage/logout.JPG)

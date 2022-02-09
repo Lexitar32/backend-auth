@@ -42,6 +42,7 @@ exports.loginUser = async (req, res) => {
 
     const isPassword = await compare(password, user.password);
     if (!isPassword) throw new Error("Invalid email / password");
+    if (!user.isActive) throw new Error("Email Confirmation needed");
     const accessToken = createAccessToken(user);
     const refreshToken = createRefreshToken(user);
     user.refreshToken = refreshToken;
