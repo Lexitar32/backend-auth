@@ -51,7 +51,7 @@ exports.emailVerification = async (req, res) => {
     );
 
     if (!response) throw new Error("This user is not registered");
-    res.send("Email Verified")
+    res.redirect(process.env.LOGIN_REDIRECT);
   } catch (error) {
     res.status(400).send({
       error: error.message,

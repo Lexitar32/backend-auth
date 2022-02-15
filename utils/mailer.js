@@ -5,8 +5,8 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 exports.emailVerification = (user) => {
     const token = createAccessToken(user);
     const msg = {
-        to: user.email, // Change to your recipient
-        from: "olamilekan@scalemath.com", // Change to your verified sender
+        to: user.email,
+        from: "olamilekan@scalemath.com",
         subject: "Workover Platform",
         text: "and easy to do anywhere, even with Node.js",
         html: `Thanks for registering on Workover platform, we are happy to have you here, Kindly Click <a href="${process.env.BASE_URL}/auth/confirm-email?token=${token}">here</a> to very your email`,
