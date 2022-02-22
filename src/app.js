@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
-const { authRouter, userRouter } = require("../routes");
+const { workSpaceRouter } = require("../routes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,7 +18,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
 
 // Routes
-app.use("/api/auth", authRouter);
+app.use("/api/workspace", workSpaceRouter);
+
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).send('invalid token...');
+  }
+});
+
+app.use((req, res, next) => {
+  res.send("Route does not exist");
+})
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);

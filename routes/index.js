@@ -1,5 +1,5 @@
-const authRouter = require("./auth.route");
+const workSpaceRouter = require("./workspace.route")
 
 module.exports = {
-  authRouter,
+  workSpaceRouter
 };
