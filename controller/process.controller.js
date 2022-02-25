@@ -1,4 +1,5 @@
 const ProcessModel = require("../models/process.model");
+const { createProcessValidation, updateProcessValidation } = require("../validation/process.validation");
 
 exports.createProcess = async (req, res) => {
     try {
@@ -9,9 +10,15 @@ exports.createProcess = async (req, res) => {
         data.userId = userId;
         data.description = description;
 
+        const { error } = createProcessValidation().validate(data);
+
+        if (error) {
+            return res.send(error.message)
+        }
+
         const existingProcess = await ProcessModel.findOne({
             processName,
-            userId
+            userId,
         });
 
         if (existingProcess) {
@@ -34,6 +41,65 @@ exports.getProcesses = async (req, res) => {
     try {
         const processes = await ProcessModel.find({ userId: req.params.id });
         res.send(processes);
+    } catch (error) {
+        res.status(400).send({
+            error: error.message || "Something went wrong",
+        });
+    }
+};
+
+exports.getProcess = async (req, res) => {
+    try {
+        const process = await ProcessModel.findOne({
+            userId: req.params.id,
+            id: req.params.processId,
+        });
+        res.send(process);
+    } catch (error) {
+        res.status(400).send({
+            error: error.message || "Something went wrong",
+        });
+    }
+};
+
+exports.updateProcess = async (req, res) => {
+    try {
+        const data = {};
+        const { processName, description } = req.body;
+
+        data.processName = processName;
+        data.description = description;
+
+        const { error } = updateProcessValidation().validate(data);
+
+        if (error) {
+            return res.send(error.message)
+        }
+
+
+        await ProcessModel.findOneAndUpdate(
+            { userId: req.params.id, id: req.params.processId },
+            data
+        );
+        res.send({
+            message: "Process successfully updated",
+        });
+    } catch (error) {
+        res.status(400).send({
+            error: error.message || "Something went wrong",
+        });
+    }
+};
+
+exports.deleteProcess = async (req, res) => {
+    try {
+        await ProcessModel.deleteOne({
+            userId: req.params.id,
+            id: req.params.processId,
+        });
+        res.send({
+            message: "Process deleted successfully",
+        });
     } catch (error) {
         res.status(400).send({
             error: error.message || "Something went wrong",
