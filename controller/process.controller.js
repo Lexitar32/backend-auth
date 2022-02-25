@@ -16,7 +16,9 @@ exports.createProcess = async (req, res) => {
         const { error } = createProcessValidation().validate(data);
 
         if (error) {
-            return res.send(error.message);
+            return res.send({
+                error: error.message
+            });
         }
 
         const existingProcess = await ProcessModel.findOne({
