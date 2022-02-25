@@ -16,7 +16,7 @@ exports.createProcess = async (req, res) => {
         const { error } = createProcessValidation().validate(data);
 
         if (error) {
-            return res.send({
+            return res.status(400).send({
                 error: error.message
             });
         }
