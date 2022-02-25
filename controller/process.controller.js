@@ -1,5 +1,8 @@
 const ProcessModel = require("../models/process.model");
-const { createProcessValidation, updateProcessValidation } = require("../validation/process.validation");
+const {
+    createProcessValidation,
+    updateProcessValidation,
+} = require("../validation/process.validation");
 
 exports.createProcess = async (req, res) => {
     try {
@@ -13,7 +16,7 @@ exports.createProcess = async (req, res) => {
         const { error } = createProcessValidation().validate(data);
 
         if (error) {
-            return res.send(error.message)
+            return res.send(error.message);
         }
 
         const existingProcess = await ProcessModel.findOne({
@@ -73,14 +76,18 @@ exports.updateProcess = async (req, res) => {
         const { error } = updateProcessValidation().validate(data);
 
         if (error) {
-            return res.send(error.message)
+            return res.send(error.message);
         }
 
-
-        await ProcessModel.findOneAndUpdate(
+        let response = await ProcessModel.findOneAndUpdate(
             { userId: req.params.id, id: req.params.processId },
             data
         );
+
+        if (!response) {
+            throw new Error("Process not found");
+        }
+
         res.send({
             message: "Process successfully updated",
         });
@@ -93,10 +100,15 @@ exports.updateProcess = async (req, res) => {
 
 exports.deleteProcess = async (req, res) => {
     try {
-        await ProcessModel.deleteOne({
+        let response = await ProcessModel.findOneAndDelete({
             userId: req.params.id,
             id: req.params.processId,
         });
+
+        if (!response) {
+            throw new Error("Process not found");
+        }
+
         res.send({
             message: "Process deleted successfully",
         });
