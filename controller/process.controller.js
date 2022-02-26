@@ -17,7 +17,7 @@ exports.createProcess = async (req, res) => {
 
         if (error) {
             return res.status(400).send({
-                error: error.message
+                error: error.message,
             });
         }
 
@@ -82,12 +82,12 @@ exports.updateProcess = async (req, res) => {
         }
 
         let response = await ProcessModel.findOneAndUpdate(
-            { userId: req.params.id, id: req.params.processId },
+            { _id: req.params.processId, userId: req.params.id },
             data
         );
 
         if (!response) {
-            throw new Error("Process not found");
+            throw new Error("Process not found")
         }
 
         res.send({
@@ -103,8 +103,8 @@ exports.updateProcess = async (req, res) => {
 exports.deleteProcess = async (req, res) => {
     try {
         let response = await ProcessModel.findOneAndDelete({
+            _id: req.params.processId,
             userId: req.params.id,
-            id: req.params.processId,
         });
 
         if (!response) {
