@@ -81,13 +81,21 @@ exports.updateProcess = async (req, res) => {
             return res.send(error.message);
         }
 
+        const existingProcess = await ProcessModel.findOne({
+            processName: data.processName,
+        });
+
+        if (existingProcess) {
+            throw new Error("Process Already Exists");
+        }
+
         let response = await ProcessModel.findOneAndUpdate(
             { _id: req.params.processId, userId: req.params.id },
             data
         );
 
         if (!response) {
-            throw new Error("Process not found")
+            throw new Error("Process not found");
         }
 
         res.send({
