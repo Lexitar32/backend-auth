@@ -87,7 +87,7 @@ exports.updateProcess = async (req, res) => {
         );
 
         if (!response) {
-            throw new Error("Process not found");
+            throw new Error("Process not found")
         }
 
         res.send({
