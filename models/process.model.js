@@ -6,6 +6,7 @@ const processSchema = new Schema(
         processName: {
             type: String,
             required: true,
+            unique: true
         },
         description: {
             type: String,
