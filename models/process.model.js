@@ -6,7 +6,7 @@ const processSchema = new Schema(
         processName: {
             type: String,
             required: true,
-            unique: true
+            unique: true,
         },
         description: {
             type: String,
@@ -14,17 +14,25 @@ const processSchema = new Schema(
         },
         steps: {
             type: Number,
-            default: 0
+            default: 0,
         },
         userId: {
             type: String,
             required: true,
-        }
+        },
     },
     {
         timestamps: true,
     }
 );
+
+processSchema.methods.toJSON = function () {
+    const process = this;
+    const processObject = process.toObject();
+
+    delete processObject.__v;
+    return processObject;
+};
 
 const Process = mongoose.model("process", processSchema);
 
