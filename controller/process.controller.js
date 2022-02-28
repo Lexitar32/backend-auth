@@ -57,7 +57,7 @@ exports.getProcess = async (req, res) => {
     try {
         const process = await ProcessModel.findOne({
             userId: req.params.id,
-            id: req.params.processId,
+            _id: req.params.processId,
         });
         res.send(process);
     } catch (error) {
