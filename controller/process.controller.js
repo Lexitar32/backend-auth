@@ -44,7 +44,7 @@ exports.createProcess = async (req, res) => {
 
 exports.getProcesses = async (req, res) => {
     try {
-        const processes = await ProcessModel.find({ userId: req.params.id });
+        const processes = await ProcessModel.find({ userId: req.params.id }).populate("steps");
         res.send(processes);
     } catch (error) {
         res.status(400).send({
@@ -58,7 +58,7 @@ exports.getProcess = async (req, res) => {
         const process = await ProcessModel.findOne({
             userId: req.params.id,
             _id: req.params.processId,
-        });
+        })
         res.send(process);
     } catch (error) {
         res.status(400).send({

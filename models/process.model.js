@@ -12,7 +12,7 @@ const processSchema = new Schema(
             type: String,
             required: true,
         },
-        steps: {
+        stepNumber: {
             type: Number,
             default: 0,
         },
@@ -20,6 +20,7 @@ const processSchema = new Schema(
             type: String,
             required: true,
         },
+        steps: [{ type: Schema.Types.ObjectId, ref: "Step" }],
     },
     {
         timestamps: true,
@@ -34,6 +35,6 @@ processSchema.methods.toJSON = function () {
     return processObject;
 };
 
-const Process = mongoose.model("process", processSchema);
+const Process = mongoose.model("Process", processSchema);
 
 module.exports = Process;
