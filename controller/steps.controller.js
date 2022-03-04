@@ -34,3 +34,17 @@ exports.createSteps = async (req, res) => {
         });
     }
 };
+
+exports.getStep = async (req, res) => {
+    try {
+        const stepDesc = await Steps.findOne({
+            processId: req.params.id,
+            _id: req.params.stepId,
+        }).populate("stepDesc")
+        res.send(stepDesc);
+    } catch (error) {
+        res.status(400).send({
+            error: error.message || "Something went wrong",
+        });
+    }
+};

@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
-const { workSpaceRouter, processRouter, stepsRouter } = require("../routes");
+const { workSpaceRouter, processRouter, stepsRouter, stepDescRouter } = require("../routes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,6 +21,7 @@ app.use(logger("dev"));
 app.use("/api/workspace", workSpaceRouter);
 app.use("/api/process", processRouter);
 app.use("/api/steps", stepsRouter);
+app.use("/api/stepDesc", stepDescRouter);
 
 app.use(function (err, req, res, next) {
   if (err.name === "UnauthorizedError") {

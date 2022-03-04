@@ -9,8 +9,9 @@ const stepsSchema = new Schema(
         },
         processId: {
             type: String,
-            required: true
-        }
+            required: true,
+        },
+        stepDesc: [{ type: Schema.Types.ObjectId, ref: "textEditor" }],
     },
     {
         timestamps: true,
