@@ -48,3 +48,24 @@ exports.getStep = async (req, res) => {
         });
     }
 };
+
+exports.deleteStep = async (req, res) => {
+    try {
+        let response = await Steps.findOneAndDelete({
+            _id: req.params.stepId,
+            processId: req.params.processId,
+        });
+
+        if (!response) {
+            throw new Error("Step not found");
+        }
+
+        res.send({
+            message: "Step deleted successfully",
+        });
+    } catch (error) {
+        res.status(400).send({
+            error: error.message || "Something went wrong",
+        });
+    }
+}
