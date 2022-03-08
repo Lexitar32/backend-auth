@@ -49,6 +49,39 @@ exports.getStep = async (req, res) => {
     }
 };
 
+exports.updateProcess = async (req, res) => {
+    try {
+        const data = {};
+        const { stepName, processId } = req.body;
+
+        data.stepName = stepName;
+        data.processId = processId;
+
+        const { error } = createStepsValidation().validate(data);
+
+        if (error) {
+            return res.send(error.message);
+        }
+
+        let response = await Steps.findOneAndUpdate(
+            { _id: req.params.stepId, processId: req.params.processId },
+            data
+        );
+
+        if (!response) {
+            throw new Error("Step not found");
+        }
+
+        res.send({
+            message: "Step successfully updated",
+        });
+    } catch (error) {
+        res.status(400).send({
+            error: error.message || "Something went wrong",
+        });
+    }
+};
+
 exports.deleteStep = async (req, res) => {
     try {
         let response = await Steps.findOneAndDelete({
@@ -69,3 +102,4 @@ exports.deleteStep = async (req, res) => {
         });
     }
 }
+
