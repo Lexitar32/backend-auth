@@ -49,7 +49,7 @@ exports.getStep = async (req, res) => {
     }
 };
 
-exports.updateProcess = async (req, res) => {
+exports.updateStep = async (req, res) => {
     try {
         const data = {};
         const { stepName, processId } = req.body;
