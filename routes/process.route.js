@@ -7,10 +7,10 @@ const {
   deleteProcess,
 } = require("../controller/process.controller");
 const { authorizeAccessToken } = require("../middlewares/verifyUser");
-const { checkPermissions } = require("../middlewares/checkPermissions");
+// const { checkPermissions } = require("../middlewares/checkPermissions");
 
 router.post("/create", [authorizeAccessToken], createProcess);
-router.get("/get/:id", [authorizeAccessToken, checkPermissions], getProcesses);
+router.get("/get/:id", [authorizeAccessToken], getProcesses);
 router.get("/get/:id/:processId", [authorizeAccessToken], getProcess);
 router.post("/update/:id/:processId", [authorizeAccessToken], updateProcess);
 router.delete("/delete/:id/:processId", [authorizeAccessToken], deleteProcess);

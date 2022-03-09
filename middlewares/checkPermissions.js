@@ -1,6 +1,6 @@
 var jwtAuthz = require("express-jwt-authz");
 
-const checkPermissions = jwtAuthz(["read:workspaces"], {
+const checkPermissions = jwtAuthz(["read:processes"], {
   customScopeKey: "permissions",
 });
 
