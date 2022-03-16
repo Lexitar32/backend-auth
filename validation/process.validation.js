@@ -5,7 +5,7 @@ exports.createProcessValidation = () => {
     processName: Joi.string()
       .required()
       .error(new Error("Process Name is required!")),
-    description: Joi.string(),
+    description: Joi.optional(),
     // .min(20)
     // .max(100)
     // .error(
@@ -24,7 +24,7 @@ exports.updateProcessValidation = () => {
     processName: Joi.string()
       .required()
       .error(new Error("Process Name is required!")),
-    description: Joi.string(),
+    // description: Joi.string(),
     //     .min(20)
     //     .max(100)
     //     .error(

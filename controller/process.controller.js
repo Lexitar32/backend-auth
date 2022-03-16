@@ -13,7 +13,7 @@ exports.createProcess = async (req, res) => {
         data.userId = userId;
         data.description = description;
 
-        // const { error } = createProcessValidation().validate(data);
+        const { error } = createProcessValidation().validate(data);
 
         if (error) {
             return res.status(400).send({
