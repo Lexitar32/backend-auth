@@ -9,7 +9,6 @@ const processSchema = new Schema(
         },
         description: {
             type: String,
-            required: true,
         },
         stepNumber: {
             type: Number,

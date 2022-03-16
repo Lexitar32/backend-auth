@@ -8,7 +8,6 @@ exports.createProcessValidation = () => {
         description: Joi.string()
             .min(20)
             .max(100)
-            .required()
             .error(
                 new Error(
                     "Process Description should be min of 20 characters and max of 100 characters"
@@ -28,7 +27,6 @@ exports.updateProcessValidation = () => {
         description: Joi.string()
             .min(20)
             .max(100)
-            .required()
             .error(
                 new Error(
                     "Process Description should be min of 20 characters and max of 100 characters"
