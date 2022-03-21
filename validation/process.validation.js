@@ -6,13 +6,6 @@ exports.createProcessValidation = () => {
       .required()
       .error(new Error("Process Name is required!")),
     description: Joi.optional(),
-    // .min(20)
-    // .max(100)
-    // .error(
-    //     new Error(
-    //         "Process Description should be min of 20 characters and max of 100 characters"
-    //     )
-    // ),
     userId: Joi.string().required().error(new Error("User Id is required")),
   });
 
@@ -25,13 +18,6 @@ exports.updateProcessValidation = () => {
       .required()
       .error(new Error("Process Name is required!")),
     description: Joi.optional(),
-    //     .min(20)
-    //     .max(100)
-    //     .error(
-    //         new Error(
-    //             "Process Description should be min of 20 characters and max of 100 characters"
-    //         )
-    //     ),
   });
 
   return schema;
