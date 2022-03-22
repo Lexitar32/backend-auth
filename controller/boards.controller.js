@@ -71,6 +71,7 @@ exports.updateBoard = async (req, res) => {
 
         const existingBoard = await BoardModel.findOne({
             boardTitle: data.boardTitle,
+            label: data.label
         });
 
         if (existingBoard) {

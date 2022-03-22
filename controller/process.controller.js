@@ -83,6 +83,7 @@ exports.updateProcess = async (req, res) => {
 
         const existingProcess = await ProcessModel.findOne({
             processName: data.processName,
+            processName: data.description
         });
 
         if (existingProcess) {
