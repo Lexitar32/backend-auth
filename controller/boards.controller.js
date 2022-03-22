@@ -54,6 +54,20 @@ exports.getBoards = async (req, res) => {
     }
 };
 
+exports.getBoard = async (req, res) => {
+    try {
+        const board = await BoardModel.findOne({
+            userId: req.params.id,
+            _id: req.params.boardId,
+        })
+        res.send(board);
+    } catch (error) {
+        res.status(400).send({
+            error: error.message || "Something went wrong",
+        });
+    }
+};
+
 exports.updateBoard = async (req, res) => {
     try {
       const data = {};
