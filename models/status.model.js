@@ -7,7 +7,7 @@ const statusSchema = new Schema(
       type: String,
       required: true,
     },
-    userId: {
+    boardId: {
       type: String,
       required: true,
     },

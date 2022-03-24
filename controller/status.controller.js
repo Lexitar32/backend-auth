@@ -1,3 +1,4 @@
+const Board = require("../models/boards.model");
 const statusModel = require("../models/status.model");
 const {
   createStatusValidation,
@@ -7,10 +8,10 @@ const {
 exports.createStatus = async (req, res) => {
   try {
     const data = {};
-    const { statusName, userId } = req.body;
+    const { statusName, boardId } = req.body;
 
     data.statusName = statusName;
-    data.userId = userId;
+    data.boardId = boardId;
 
     const { error } = createStatusValidation().validate(data);
 
@@ -22,15 +23,21 @@ exports.createStatus = async (req, res) => {
 
     const existingStatus = await statusModel.findOne({
       statusName,
-      userId,
+      boardId,
     });
 
     if (existingStatus) {
-      throw new Error(" Status Already Exists");
+      throw new Error("Status Already Exists");
     }
 
     const status = new statusModel(data);
     await status.save();
+
+    await Board.findOneAndUpdate(
+      { _id: data.boardId },
+      { $push: { status: status._id } },
+      { new: true }
+    );
 
     res.send({
       message: "Status successfully created",
@@ -45,7 +52,7 @@ exports.createStatus = async (req, res) => {
 exports.getStatus = async (req, res) => {
   try {
     const status = await statusModel
-      .find({ userId: req.params.id })
+      .find({ boardId: req.params.id })
       .populate("projects");
     res.send(status);
   } catch (error) {
@@ -77,7 +84,7 @@ exports.updateStatus = async (req, res) => {
     }
 
     let response = await statusModel.findOneAndUpdate(
-      { _id: req.params.statusId, userId: req.params.id },
+      { _id: req.params.statusId, boardId: req.params.id },
       data
     );
 
@@ -99,16 +106,22 @@ exports.deleteStatus = async (req, res) => {
   try {
     let response = await statusModel.findOneAndDelete({
       _id: req.params.statusId,
-      userId: req.params.id,
+      boardId: req.params.id,
     });
 
     if (!response) {
       throw new Error("Status not found");
     }
 
+    await Board.findOneAndUpdate(
+      { _id: req.params.id },
+      { $pull: { status: req.params.statusId } },
+      { new: true }
+    );
+
     res.send({
-        message: "Status successfully deleted",
-      });
+      message: "Status successfully deleted",
+    });
   } catch (error) {
     res.status(400).send({
       error: error.message || "Something went wrong",

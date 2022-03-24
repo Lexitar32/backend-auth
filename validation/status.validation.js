@@ -5,7 +5,7 @@ exports.createStatusValidation = () => {
     statusName: Joi.string()
       .required()
       .error(new Error("Status Name is required!")),
-    userId: Joi.string().required().error(new Error("User Id is required")),
+    boardId: Joi.string().required().error(new Error("Board Id is required")),
   });
 
   return schema;
