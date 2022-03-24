@@ -77,6 +77,7 @@ exports.updateStatus = async (req, res) => {
 
     const existingStatus = await statusModel.findOne({
       statusName: data.statusName,
+      boardId: req.params.id
     });
 
     if (existingStatus) {
