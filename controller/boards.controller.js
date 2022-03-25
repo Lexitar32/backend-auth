@@ -34,7 +34,6 @@ exports.createBoard = async (req, res) => {
 
     const board = await BoardModel.create(data);
     const boardId = board._id;
-    console.log(boardId);
 
     const statusArray = [
       {
@@ -79,7 +78,7 @@ exports.createBoard = async (req, res) => {
 exports.getBoards = async (req, res) => {
   try {
     const boards = await BoardModel.find({ userId: req.params.id }).populate(
-      "status"
+      "status"  
     );
     res.send(boards);
   } catch (error) {
