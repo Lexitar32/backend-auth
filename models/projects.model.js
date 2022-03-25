@@ -26,6 +26,6 @@ projectSchema.methods.toJSON = function () {
     return projectsObject;
 };
 
-const Projects = mongoose.model("Project", projectSchema);
+const Projects = mongoose.model("Projects", projectSchema);
 
 module.exports = Projects;

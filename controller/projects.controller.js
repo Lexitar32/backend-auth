@@ -32,7 +32,6 @@ exports.createProject = async (req, res) => {
 
     const project = new ProjectModel(data);
     await project.save();
-    console.log(project);
 
     await Status.findOneAndUpdate(
       { _id: data.statusId },

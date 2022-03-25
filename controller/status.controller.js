@@ -33,11 +33,13 @@ exports.createStatus = async (req, res) => {
     const status = new statusModel(data);
     await status.save();
 
-    await Board.findOneAndUpdate(
+    const test = await Board.findOneAndUpdate(
       { _id: data.boardId },
       { $push: { status: status._id } },
       { new: true }
     );
+
+    console.log("test", test);
 
     res.send({
       message: "Status successfully created",

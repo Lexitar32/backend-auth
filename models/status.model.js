@@ -11,7 +11,7 @@ const statusSchema = new Schema(
       type: String,
       required: true,
     },
-    projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
+    projects: [{ type: Schema.Types.ObjectId, ref: "Projects" }],
   },
   {
     timestamps: true,
@@ -19,8 +19,8 @@ const statusSchema = new Schema(
 );
 
 statusSchema.methods.toJSON = function () {
-  const staus = this;
-  const statusObject = staus.toObject();
+  const status = this;
+  const statusObject = status.toObject();
 
   delete statusObject.__v;
   return statusObject;
