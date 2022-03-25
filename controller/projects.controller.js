@@ -8,10 +8,11 @@ const {
 exports.createProject = async (req, res) => {
   try {
     const data = {};
-    const { projectName, statusId } = req.body;
+    const { projectName, statusId, boardId } = req.body;
 
     data.projectName = projectName;
     data.statusId = statusId;
+    data.boardId = boardId
 
     const { error } = createProjectValidation().validate(data);
 
@@ -24,6 +25,7 @@ exports.createProject = async (req, res) => {
     const existingProject = await ProjectModel.findOne({
       projectName,
       statusId,
+      boardId
     });
 
     if (existingProject) {
@@ -51,9 +53,8 @@ exports.createProject = async (req, res) => {
 
 exports.getProject = async (req, res) => {
   try {
-      const project = await ProjectModel.findOne({
-          statusId: req.params.id,
-          _id: req.params.projectId,
+      const project = await ProjectModel.find({
+          boardId: req.params.id
       })
       res.send(project);
   } catch (error) {

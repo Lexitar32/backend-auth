@@ -11,6 +11,10 @@ const projectSchema = new Schema(
             type: String,
             required: true,
         },
+        boardId: {
+            type: String,
+            required: true
+        },
         taskList: [{ type: Schema.Types.ObjectId, ref: "taskList" }],
     },
     {
