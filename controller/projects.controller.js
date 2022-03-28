@@ -22,16 +22,6 @@ exports.createProject = async (req, res) => {
       });
     }
 
-    const existingProject = await ProjectModel.findOne({
-      projectName,
-      statusId,
-      boardId
-    });
-
-    if (existingProject) {
-      throw new Error("Project Already Exists");
-    }
-
     const project = new ProjectModel(data);
     await project.save();
 
