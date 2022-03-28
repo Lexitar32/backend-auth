@@ -2,7 +2,7 @@ const Status = require("../models/status.model");
 const ProjectModel = require("../models/projects.model");
 const {
   createProjectValidation,
-  updateProjectValidation
+  updateProjectValidation,
 } = require("../validation/projects.validation");
 
 exports.createProject = async (req, res) => {
@@ -12,7 +12,7 @@ exports.createProject = async (req, res) => {
 
     data.projectName = projectName;
     data.statusId = statusId;
-    data.boardId = boardId
+    data.boardId = boardId;
 
     const { error } = createProjectValidation().validate(data);
 
@@ -25,7 +25,7 @@ exports.createProject = async (req, res) => {
     const existingProject = await ProjectModel.findOne({
       projectName,
       statusId,
-      boardId
+      boardId,
     });
 
     if (existingProject) {
@@ -51,16 +51,30 @@ exports.createProject = async (req, res) => {
   }
 };
 
+exports.getProjects = async (req, res) => {
+  try {
+    const projects = await ProjectModel.find({
+      boardId: req.params.id,
+    });
+    res.send(projects);
+  } catch (error) {
+    res.status(400).send({
+      error: error.message || "Something went wrong",
+    });
+  }
+};
+
 exports.getProject = async (req, res) => {
   try {
-      const project = await ProjectModel.find({
-          boardId: req.params.id
-      })
-      res.send(project);
+    const project = await ProjectModel.findOne({
+      statusId: req.params.id,
+      _id: req.params.projectId,
+    });
+    res.send(project);
   } catch (error) {
-      res.status(400).send({
-          error: error.message || "Something went wrong",
-      });
+    res.status(400).send({
+      error: error.message || "Something went wrong",
+    });
   }
 };
 
@@ -106,22 +120,21 @@ exports.updateProject = async (req, res) => {
 
 exports.deleteProject = async (req, res) => {
   try {
-      let response = await ProjectModel.findOneAndDelete({
-          _id: req.params.projectId,
-          statusId: req.params.statusId,
-      });
+    let response = await ProjectModel.findOneAndDelete({
+      _id: req.params.projectId,
+      statusId: req.params.statusId,
+    });
 
-      if (!response) {
-          throw new Error("Project not found");
-      }
+    if (!response) {
+      throw new Error("Project not found");
+    }
 
-      res.send({
-          message: "Project deleted successfully",
-      });
+    res.send({
+      message: "Project deleted successfully",
+    });
   } catch (error) {
-      res.status(400).send({
-          error: error.message || "Something went wrong",
-      });
+    res.status(400).send({
+      error: error.message || "Something went wrong",
+    });
   }
-}
-
+};
