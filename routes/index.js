@@ -5,6 +5,7 @@ const stepDescRouter = require("./textEditor.route");
 const boardRouter = require("./board.route");
 const statusRouter = require("./status.route");
 const projectsRouter = require("./projects.route");
+const taskListRouter = require("./taskList.route");
 
 module.exports = {
   workSpaceRouter,
@@ -13,5 +14,6 @@ module.exports = {
   stepDescRouter,
   boardRouter,
   statusRouter,
-  projectsRouter
+  projectsRouter,
+  taskListRouter,
 };
