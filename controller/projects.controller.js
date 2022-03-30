@@ -33,6 +33,7 @@ exports.createProject = async (req, res) => {
 
     res.send({
       message: "Project successfully created",
+      id: project._id
     });
   } catch (error) {
     res.status(400).send({
