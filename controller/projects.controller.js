@@ -82,14 +82,6 @@ exports.updateProject = async (req, res) => {
       return res.send(error.message);
     }
 
-    const existingProject = await ProjectModel.findOne({
-      projectName: data.projectName,
-    });
-
-    if (existingProject) {
-      throw new Error("Project Already Exists");
-    }
-
     let response = await ProjectModel.findOneAndUpdate(
       { _id: req.params.projectId, statusId: req.params.statusId },
       data
