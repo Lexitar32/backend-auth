@@ -38,10 +38,28 @@ exports.createTaskList = async (req, res) => {
 
 exports.getTaskList = async (req, res) => {
   try {
-    const tasks = await taskList.find({
-      projectId: req.params.id
-    }).populate("stepDesc");
+    const tasks = await taskList
+      .find({
+        projectId: req.params.id,
+      })
+      .populate("stepDesc");
     res.send(tasks);
+  } catch (error) {
+    res.status(400).send({
+      error: error.message || "Something went wrong",
+    });
+  }
+};
+
+exports.getTask = async (req, res) => {
+  try {
+    const task = await taskList
+      .findOne({
+        projectId: req.params.id,
+        _id: req.params.taskId,
+      })
+      .populate("stepDesc");
+    res.send(task);
   } catch (error) {
     res.status(400).send({
       error: error.message || "Something went wrong",
