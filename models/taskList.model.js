@@ -10,6 +10,10 @@ const taskListSchema = new Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: Boolean,
+      required: true
+    },
     stepDesc: [{ type: Schema.Types.ObjectId, ref: "textEditor" }],
   },
   {

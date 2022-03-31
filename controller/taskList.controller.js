@@ -1,14 +1,15 @@
 const Project = require("../models/projects.model");
 const taskList = require("../models/taskList.model");
-const { createTaskValidation } = require("../validation/taskList.validation");
+const { createTaskValidation, updateTaskValidation } = require("../validation/taskList.validation");
 
 exports.createTaskList = async (req, res) => {
   try {
     const data = {};
-    const { taskListName, projectId } = req.body;
+    const { taskListName, projectId, status } = req.body;
 
     data.taskListName = taskListName;
     data.projectId = projectId;
+    data.status = status;
 
     const { error } = createTaskValidation().validate(data);
 
@@ -64,5 +65,39 @@ exports.getTask = async (req, res) => {
     res.status(400).send({
       error: error.message || "Something went wrong",
     });
+  }
+};
+
+exports.updateTask = async (req, res) => {
+  try {
+      const data = {};
+      const { taskListName, projectId, status } = req.body;
+
+    data.taskListName = taskListName;
+    data.projectId = projectId;
+    data.status = status;
+
+    const { error } = updateTaskValidation().validate(data);
+
+      if (error) {
+          return res.send(error.message);
+      }
+
+      let response = await taskList.findOneAndUpdate(
+          { _id: req.params.taskId, projectId: req.params.id },
+          data
+      );
+
+      if (!response) {
+          throw new Error("Task is not found");
+      }
+
+      res.send({
+          message: "Task successfully updated",
+      });
+  } catch (error) {
+      res.status(400).send({
+          error: error.message || "Something went wrong",
+      });
   }
 };
