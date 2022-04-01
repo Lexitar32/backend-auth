@@ -29,6 +29,7 @@ exports.createTaskList = async (req, res) => {
     );
     res.send({
       message: "Task successfully created",
+      id: task._id
     });
   } catch (error) {
     res.status(400).send({
