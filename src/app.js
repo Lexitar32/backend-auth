@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
-const { workSpaceRouter, processRouter, stepsRouter, stepDescRouter, boardRouter, statusRouter, projectsRouter, taskListRouter } = require("../routes");
+const { surveyRouter, authRouter, workSpaceRouter, processRouter, stepsRouter, stepDescRouter, boardRouter, statusRouter, projectsRouter, taskListRouter } = require("../routes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,6 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
 
 // Routes
+app.use("/api/survey", surveyRouter)
+app.use("/api/auth", authRouter)
 app.use("/api/workspace", workSpaceRouter);
 app.use("/api/process", processRouter);
 app.use("/api/steps", stepsRouter);

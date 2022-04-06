@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const { createSteps, getStep, deleteStep, updateStep } = require("../controller/steps.controller");
-const { authorizeAccessToken } = require("../middlewares/verifyUser");
+const { verifyUser } = require("../middlewares/verifyUser");
 
-router.post("/create", [authorizeAccessToken], createSteps);
-router.get("/get/:id/:stepId", [authorizeAccessToken], getStep);
-router.post("/update/:processId/:stepId", [authorizeAccessToken], updateStep);
-router.delete("/delete/:processId/:stepId", [authorizeAccessToken], deleteStep);
+router.post("/create", [verifyUser], createSteps);
+router.get("/get/:id/:stepId", [verifyUser], getStep);
+router.post("/update/:processId/:stepId", [verifyUser], updateStep);
+router.delete("/delete/:processId/:stepId", [verifyUser], deleteStep);
 
 module.exports = router;

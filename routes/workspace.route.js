@@ -4,10 +4,10 @@ const {
     getWorkspaces,
 } = require("../controller/workspace.controller");
 const {
-    authorizeAccessToken
+    verifyUser
 } = require("../middlewares/verifyUser");
 
-router.post("/create", [authorizeAccessToken], createWorkSpace);
-router.get("/get/:id", [authorizeAccessToken], getWorkspaces);
+router.post("/create", [verifyUser], createWorkSpace);
+router.get("/get/:id", [verifyUser], getWorkspaces);
 
 module.exports = router;

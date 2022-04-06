@@ -6,13 +6,12 @@ const {
   updateProcess,
   deleteProcess,
 } = require("../controller/process.controller");
-const { authorizeAccessToken } = require("../middlewares/verifyUser");
-// const { checkPermissions } = require("../middlewares/checkPermissions");
+const { verifyUser } = require("../middlewares/verifyUser");
 
-router.post("/create", [authorizeAccessToken], createProcess);
-router.get("/get/:id", [authorizeAccessToken], getProcesses);
-router.get("/get/:id/:processId", [authorizeAccessToken], getProcess);
-router.post("/update/:id/:processId", [authorizeAccessToken], updateProcess);
-router.delete("/delete/:id/:processId", [authorizeAccessToken], deleteProcess);
+router.post("/create", [verifyUser], createProcess);
+router.get("/get/:id", [verifyUser], getProcesses);
+router.get("/get/:id/:processId", [verifyUser], getProcess);
+router.post("/update/:id/:processId", [verifyUser], updateProcess);
+router.delete("/delete/:id/:processId", [verifyUser], deleteProcess);
 
 module.exports = router;

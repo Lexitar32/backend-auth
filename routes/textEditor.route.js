@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { createStepDesc } = require("../controller/textEditor.controller");
-const { authorizeAccessToken } = require("../middlewares/verifyUser");
+const { verifyUser } = require("../middlewares/verifyUser");
 
-router.post("/create", [authorizeAccessToken], createStepDesc);
+router.post("/create", [verifyUser], createStepDesc);
 
 module.exports = router;

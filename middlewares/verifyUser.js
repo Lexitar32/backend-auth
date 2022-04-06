@@ -1,17 +1,21 @@
-// module.exports = verifyUser;
-const jwt = require("express-jwt");
-const jwksRsa = require("jwks-rsa");
+const { verify } = require("jsonwebtoken");
 
-const authorizeAccessToken = jwt({
-    secret: jwksRsa.expressJwtSecret({
-        cache: true,
-        rateLimit: true,
-        jwksRequestsPerMinute: 5,
-        jwksUri: `https://scalemath.eu.auth0.com/.well-known/jwks.json`,
-    }),
-    audience: "https://api.workover.io/",
-    issuer: `https://scalemath.eu.auth0.com/`,
-    algorithms: ["RS256"],
-});
+const verifyUser = (req, res, next) => {
+  const authorization = req.headers["authorization"];
 
-module.exports = { authorizeAccessToken };
+  try {
+    if (!authorization) throw new Error();
+    const token = authorization.split(" ")[1];
+
+    const decoded = verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    req.id = decoded.id;
+    next();
+  } catch (err) {
+    res.status(400).send({
+      error: "Not Authorized" || err.message,
+    });
+  }
+};
+
+module.exports = { verifyUser };
