@@ -23,7 +23,7 @@ exports.createSurvey = async (req, res) => {
     const survey = new SurveyModel(data);
     await survey.save();
     res.send({
-      message: "Thanks for filling the survey, kindly check your mail to know more about Workover!",
+      message: "Thanks for filling the survey!",
     });
   } catch (error) {
     res.status(400).send({
