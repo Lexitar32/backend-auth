@@ -6,7 +6,6 @@ exports.createProcessValidation = () => {
       .required()
       .error(new Error("Process Name is required!")),
     description: Joi.optional(),
-    userId: Joi.string().required().error(new Error("User Id is required")),
   });
 
   return schema;
