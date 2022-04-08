@@ -77,7 +77,7 @@ exports.createBoard = async (req, res) => {
 
 exports.getBoards = async (req, res) => {
   try {
-    const boards = await BoardModel.find({ userId: req.params.id }).populate(
+    const boards = await BoardModel.find({ userId: req.id }).populate(
       "status"  
     );
     res.send(boards);
@@ -91,7 +91,7 @@ exports.getBoards = async (req, res) => {
 exports.getBoard = async (req, res) => {
   try {
     const board = await BoardModel.findOne({
-      userId: req.params.id,
+      userId: req.id,
       _id: req.params.boardId,
     }).populate("status");
     res.send(board);
@@ -127,7 +127,7 @@ exports.updateBoard = async (req, res) => {
     }
 
     let response = await BoardModel.findOneAndUpdate(
-      { _id: req.params.boardId, userId: req.params.id },
+      { _id: req.params.boardId, userId: req.id },
       data
     );
 
@@ -149,7 +149,7 @@ exports.deleteBoard = async (req, res) => {
   try {
     let response = await BoardModel.findOneAndDelete({
       _id: req.params.boardId,
-      userId: req.params.id,
+      userId: req.id,
     });
 
     if (!response) {

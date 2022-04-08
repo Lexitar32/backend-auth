@@ -3,9 +3,9 @@ const { createBoard, getBoards, deleteBoard, updateBoard, getBoard } = require("
 const { verifyUser } = require("../middlewares/verifyUser");
 
 router.post("/create", [verifyUser], createBoard);
-router.get("/get/:id", [verifyUser], getBoards);
-router.get("/get/:id/:boardId", [verifyUser], getBoard);
-router.post("/update/:id/:boardId", [verifyUser], updateBoard)
-router.delete("/delete/:id/:boardId", [verifyUser], deleteBoard)
+router.get("/get", [verifyUser], getBoards);
+router.get("/get/:boardId", [verifyUser], getBoard);
+router.post("/update/:boardId", [verifyUser], updateBoard)
+router.delete("/delete/:boardId", [verifyUser], deleteBoard)
 
 module.exports = router;

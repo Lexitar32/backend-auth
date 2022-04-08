@@ -44,7 +44,7 @@ exports.createProcess = async (req, res) => {
 
 exports.getProcesses = async (req, res) => {
     try {
-        const processes = await ProcessModel.find({ userId: req.params.id }).populate("steps");
+        const processes = await ProcessModel.find({ userId: req.id }).populate("steps");
         res.send(processes);
     } catch (error) {
         res.status(400).send({
@@ -56,7 +56,7 @@ exports.getProcesses = async (req, res) => {
 exports.getProcess = async (req, res) => {
     try {
         const process = await ProcessModel.findOne({
-            userId: req.params.id,
+            userId: req.id,
             _id: req.params.processId,
         }).populate("steps")
         res.send(process);
@@ -91,7 +91,7 @@ exports.updateProcess = async (req, res) => {
         }
 
         let response = await ProcessModel.findOneAndUpdate(
-            { _id: req.params.processId, userId: req.params.id },
+            { _id: req.params.processId, userId: req.id },
             data
         );
 
@@ -113,7 +113,7 @@ exports.deleteProcess = async (req, res) => {
     try {
         let response = await ProcessModel.findOneAndDelete({
             _id: req.params.processId,
-            userId: req.params.id,
+            userId: req.id,
         });
 
         if (!response) {

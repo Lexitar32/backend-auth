@@ -8,6 +8,6 @@ const {
 } = require("../middlewares/verifyUser");
 
 router.post("/create", [verifyUser], createWorkSpace);
-router.get("/get/:id", [verifyUser], getWorkspaces);
+router.get("/get", [verifyUser], getWorkspaces);
 
 module.exports = router;

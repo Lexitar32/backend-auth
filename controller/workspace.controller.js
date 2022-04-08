@@ -34,7 +34,7 @@ exports.createWorkSpace = async (req, res) => {
 
 exports.getWorkspaces = async (req, res) => {
     try {
-        const workspaces = await WorkSpaceModel.find({ userId: req.params.id });
+        const workspaces = await WorkSpaceModel.find({ userId: req.id });
         res.send(workspaces);
     } catch (error) {
         res.status(400).send({
