@@ -13,7 +13,7 @@ exports.registerUser = async (req, res) => {
   const { email, password } = req.body;
   try {
     const response = await User.findOne({ email });
-    if (response) throw new Error("User with the mail exists");
+    if (response) throw new Error("User with the email exists");
 
     const hashedPassword = await hash(password, 8);
 
@@ -63,10 +63,10 @@ exports.loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email });
 
-    if (!user) throw new Error("Invalid email / password");
+    if (!user) throw new Error("Invalid email or password");
 
     const isPassword = await compare(password, user.password);
-    if (!isPassword) throw new Error("Invalid email / password");
+    if (!isPassword) throw new Error("Invalid email or password");
     if (!user.isActive) throw new Error("Email Confirmation needed");
     const accessToken = createAccessToken(user);
     const refreshToken = createRefreshToken(user);
