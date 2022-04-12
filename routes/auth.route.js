@@ -7,6 +7,7 @@ const {
   logoutUser,
   emailVerification,
   updateUserProfile,
+  getUserDetails
 } = require("../controller/auth.controller");
 const { verifyUser } = require("../middlewares/verifyUser");
 
@@ -16,5 +17,6 @@ router.post("/login", loginUser);
 router.get("/refreshtoken", getNewAccessToken);
 router.delete("/logout", logoutUser);
 router.post("/updateProfile", [verifyUser], updateUserProfile)
+router.get("/getUser", [verifyUser], getUserDetails)
 
 module.exports = router;

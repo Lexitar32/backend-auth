@@ -10,7 +10,7 @@ const createAccessToken = (user) => {
   };
 
   return jwt.sign(payload, ACCESS_TOKEN_SECRET, {
-    expiresIn: "10m",
+    expiresIn: "30m",
   });
 };
 
@@ -26,9 +26,10 @@ const createRefreshToken = (user) => {
   });
 };
 
-const sendAccessToken = (res, token) => {
+const sendAccessToken = (res, token, user) => {
   res.send({
     token,
+    user
   });
 };
 

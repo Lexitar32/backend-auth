@@ -27,7 +27,8 @@ exports.registerUser = async (req, res) => {
     emailVerification(user);
 
     res.status(201).send({
-      message: "Registration successful, check your email to verify your account",
+      message:
+        "Registration successful, check your email to verify your account",
     });
   } catch (err) {
     res.status(404).send({
@@ -73,7 +74,7 @@ exports.loginUser = async (req, res) => {
     user.refreshToken = refreshToken;
     await user.save();
     sendRereshToken(res, refreshToken);
-    sendAccessToken(res, accessToken);
+    sendAccessToken(res, accessToken, user);
   } catch (err) {
     res.status(400).send({
       error: err.message,
@@ -85,20 +86,20 @@ exports.getNewAccessToken = async (req, res) => {
   try {
     const token = req.cookies.refreshToken;
 
-    if (!token) throw new Error();
+    if (!token) throw new Error("Token is required");
 
     const payload = verify(token, process.env.REFRESH_TOKEN_SECRET);
     const user = await User.findById(payload.id);
-    if (!user) throw new Error();
+    if (!user) throw new Error("User not found");
 
-    if (user.refreshToken !== token) throw new Error();
+    if (user.refreshToken !== token) throw new Error("Token is required");
 
     const newAccessToken = createAccessToken(user);
 
     sendAccessToken(res, newAccessToken);
   } catch (err) {
     res.status(400).send({
-      token: "",
+      token: err.message,
     });
   }
 };
@@ -114,31 +115,41 @@ exports.logoutUser = (req, res) => {
 
 exports.updateUserProfile = async (req, res) => {
   try {
-      const data = {};
-      const { fullName, companyName, profilePicture, timeZone } = req.body;
+    const data = {};
+    const { fullName, companyName, profilePicture, timeZone } = req.body;
 
-      data.fullName= fullName;
-      data.companyName = companyName;
-      data.profilePicture = profilePicture;
-      data.timeZone = timeZone
+    data.fullName = fullName;
+    data.companyName = companyName;
+    data.profilePicture = profilePicture;
+    data.timeZone = timeZone;
 
-      console.log(req.id)
+    console.log(req.id);
 
-      const response = await User.findOneAndUpdate(
-        {_id: req.id},
-        data
-      );
+    const response = await User.findOneAndUpdate({ _id: req.id }, data);
 
-      if (!response) {
-          throw new Error("User does not exist");
-      }
+    if (!response) {
+      throw new Error("User does not exist");
+    }
 
-      res.send({
-          message: "User details successfully updated",
-      });
+    res.send({
+      message: "User details successfully updated",
+    });
   } catch (error) {
-      res.status(400).send({
-          error: error.message || "Something went wrong",
-      });
+    res.status(400).send({
+      error: error.message || "Something went wrong",
+    });
+  }
+};
+
+exports.getUserDetails = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      _id: req.id,
+    });
+    res.send(user);
+  } catch (error) {
+    res.status(400).send({
+      error: error.message || "Something went wrong",
+    });
   }
 };
