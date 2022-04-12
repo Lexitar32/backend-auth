@@ -20,6 +20,7 @@ const userSchema = new Schema(
     },
     profilePicture: {
       type: String,
+      required: true
     },
     timeZone: {
       type: String

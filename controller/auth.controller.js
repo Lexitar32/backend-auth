@@ -10,7 +10,7 @@ const {
 const { verify } = require("jsonwebtoken");
 
 exports.registerUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, profilePicture } = req.body;
   try {
     const response = await User.findOne({ email });
     if (response) throw new Error("User with the email exists");
@@ -20,6 +20,7 @@ exports.registerUser = async (req, res) => {
     const user = new User({
       email,
       password: hashedPassword,
+      profilePicture
     });
 
     await user.save();
